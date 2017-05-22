@@ -1,0 +1,23 @@
+{% extends 'GescomyBundle::base.html.twig' %}
+
+{% block body %}
+    <div class ="row margeTop">
+        <div class="col s6 offset-s3">
+            <div class="collection">
+                <a href="{{ path('product') }}" class="collection-item">
+                    <span class="badge">{{ totalProducts }}</span>
+                    Nombre de produits
+                </a>
+                <a href="{{ path('supplier') }}" class="collection-item">
+                    <span class="badge">{{ totalSuppliers }}</span>
+                    Nombre de fournisseurs
+                </a>
+                <a href="{{ path('category') }}" class="collection-item">
+                    <span class="badge">{{ totalCategories }}</span>
+                    Nombre de catégories
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

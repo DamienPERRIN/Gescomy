@@ -1,0 +1,43 @@
+{% extends '@Gescomy/base.html.twig' %}
+
+{% block body %}
+    <h4>Fournisseurs</h4>
+    <table class="striped">
+        {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('add_supplier') }}" class="btn-floating btn-large waves-effect waves-light red">
+            <i class="material-icons">add</i>
+        </a>
+        {% endif %}
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Code postal</th>
+            <th>Ville</th>
+            <th>Délai de livraison</th>
+            <th>Note</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for supplier in suppliers %}
+        <tr>
+            <td>{{ supplier.name }}</td>
+            <td>{{ supplier.postCode }}</td>
+            <td>{{ supplier.town }}</td>
+            <td>{{ supplier.deliveryTime }}</td>
+            <td>{{ supplier.score }}</td>
+            {% if is_granted('ROLE_ADMIN') %}
+            <td><a href="{{ path('edit_supplier', {'supplier': supplier.id}) }}">
+                <i class="small material-icons blue-text">edit</i>
+                </a>
+            </td>
+            <td><a href="{{ path('delete_supplier', {'supplier': supplier.id}) }}">
+                    <i class="small material-icons red-text modal-close">delete</i>
+                </a>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

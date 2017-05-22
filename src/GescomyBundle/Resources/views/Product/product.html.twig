@@ -1,0 +1,48 @@
+{% extends 'GescomyBundle::base.html.twig' %}
+
+{% block body %}
+    <h4>Produits</h4>
+    <div class="row">
+        <table class="striped">
+            {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('add_product') }}" class="btn-floating btn-large waves-effect waves-light red">
+                <i class="material-icons">add</i>
+            </a>
+            {% endif %}
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Catégorie</th>
+                <th>Fournisseur</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.category.name }}</td>
+                <td>
+                    {% for supplier in product.productSupplier %}
+                        {{ supplier.supplier.name }}
+                        {% if false == loop.last %}
+                            ,&nbsp;
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                {% if is_granted('ROLE_ADMIN') %}
+                <td><a href="{{ path('edit_product', {'product': product.id}) }}">
+                        <i class="small material-icons blue-text">edit</i>
+                    </a>
+                </td>
+                <td><a href="{{ path('delete_product', {'product': product.id}) }}">
+                        <i class="small material-icons red-text modal-close">delete</i>
+                    </a>
+                </td>
+                {% endif %}
+            </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

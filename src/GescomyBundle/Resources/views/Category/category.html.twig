@@ -1,0 +1,44 @@
+{% extends '@Gescomy/base.html.twig' %}
+
+{% block body %}
+    <h4>Categories</h4>
+    <div class="row">
+
+        <table class="striped">
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('add_category') }}" class="btn-floating btn-large waves-effect waves-light red">
+                    <i class="material-icons">add</i>
+                </a>
+            {% endif %}
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Desciption</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for category in categories %}
+                <tr>
+                    <td>{{ category.name }}</td>
+                    <td>{{ category.description }}</td>
+                    {% if is_granted('ROLE_ADMIN') %}
+
+                    <td>
+                        <a href="{{ path('edit_category', {'category': category.id}) }}">
+                            <i class="small material-icons blue-text">mode_edit</i>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" class="deleteButton" data-id="{{ category.id }}">
+                            <i class="small material-icons red-text modal-close">delete</i>
+                        </a>
+                    </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+{% endblock %}

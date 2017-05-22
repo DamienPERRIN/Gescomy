@@ -1,0 +1,49 @@
+<?php
+
+namespace GescomyBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * ProductSupplier
+ *
+ * @ORM\Table(name="product_supplier")
+ * @ORM\Entity(repositoryClass="GescomyBundle\Repository\ProductSupplierRepository")
+ */
+class ProductSupplier
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var Product
+     *
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="productSupplier")
+     */
+    private $product;
+
+    /**
+     * @var Supplier
+     *
+     * @ORM\ManyToOne(targetEntity="Supplier", inversedBy="productSupplier")
+     */
+    private $supplier;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+}
+

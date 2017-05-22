@@ -1,0 +1,5 @@
+gescomy:
+    resource: "@GescomyBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
