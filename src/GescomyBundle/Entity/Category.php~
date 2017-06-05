@@ -100,5 +100,45 @@ class Category
     {
         return $this->description;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->products = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Add product
+     *
+     * @param \GescomyBundle\Entity\Product $product
+     *
+     * @return Category
+     */
+    public function addProduct(\GescomyBundle\Entity\Product $product)
+    {
+        $this->products[] = $product;
+
+        return $this;
+    }
+
+    /**
+     * Remove product
+     *
+     * @param \GescomyBundle\Entity\Product $product
+     */
+    public function removeProduct(\GescomyBundle\Entity\Product $product)
+    {
+        $this->products->removeElement($product);
+    }
+
+    /**
+     * Get products
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProducts()
+    {
+        return $this->products;
+    }
+}

@@ -39,6 +39,7 @@ class Product
      * @var Category
      *
      * @ORM\ManyToOne(targetEntity="GescomyBundle\Entity\Category", inversedBy="products", cascade={"persist"})
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $category;
 
@@ -128,5 +129,49 @@ class Product
     {
         return $this->category;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->productSupplier = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Add productSupplier
+     *
+     * @param \GescomyBundle\Entity\ProductSupplier $productSupplier
+     *
+     * @return Product
+     */
+    public function addProductSupplier(\GescomyBundle\Entity\ProductSupplier $productSupplier)
+    {
+        $this->productSupplier[] = $productSupplier;
+
+        return $this;
+    }
+
+    /**
+     * Remove productSupplier
+     *
+     * @param \GescomyBundle\Entity\ProductSupplier $productSupplier
+     */
+    public function removeProductSupplier(\GescomyBundle\Entity\ProductSupplier $productSupplier)
+    {
+        $this->productSupplier->removeElement($productSupplier);
+    }
+
+    /**
+     * Get productSupplier
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProductSupplier()
+    {
+        return $this->productSupplier;
+    }
+
+    public function resetProductSupplier(){
+        $this->productSupplier = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+}

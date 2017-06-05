@@ -3,6 +3,7 @@
 namespace GescomyBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Supplier
@@ -24,42 +25,46 @@ class Supplier
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=50)
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="adress", type="string", length=255)
+     * @ORM\Column(name="adress", type="string", length=100)
      */
     private $adress;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255)
+     * @ORM\Column(name="email", type="string", length=100)
+     * @Assert\Email()
      */
     private $email;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="postCode", type="integer")
+     * @ORM\Column(name="postCode", type="integer", length=5)
+     * @Assert\Regex("/[0-9]{5}/")
      */
     private $postCode;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="town", type="string", length=255)
+     * @ORM\Column(name="town", type="string", length=50)
+     * @Assert\Regex("/[A-Za-z \-']+/")
      */
     private $town;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="siret", type="string", length=255)
+     * @ORM\Column(name="siret", type="string", length=20)
+     * @Assert\Regex("/[0-9]{3}[ \.\-]?[0-9]{3}[ \.\-]?[0-9]{3}[ \.\-]?[0-9]{5}/")
      */
     private $siret;
 
@@ -67,13 +72,15 @@ class Supplier
      * @var string
      *
      * @ORM\Column(name="webSite", type="string", length=255)
+     * @Assert\Url()
      */
     private $webSite;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="deliveryTime", type="time")
+     * @ORM\Column(name="deliveryTime", type="integer")
+     * @Assert\Regex("/^[0-3]?[0-9]/")
      */
     private $deliveryTime;
 
@@ -81,6 +88,7 @@ class Supplier
      * @var int
      *
      * @ORM\Column(name="score", type="integer")
+     * @Assert\Regex("/^[1-5]/")
      */
     private $score;
 
@@ -315,5 +323,45 @@ class Supplier
     {
         return $this->score;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->productSupplier = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Add productSupplier
+     *
+     * @param \GescomyBundle\Entity\ProductSupplier $productSupplier
+     *
+     * @return Supplier
+     */
+    public function addProductSupplier(\GescomyBundle\Entity\ProductSupplier $productSupplier)
+    {
+        $this->productSupplier[] = $productSupplier;
+
+        return $this;
+    }
+
+    /**
+     * Remove productSupplier
+     *
+     * @param \GescomyBundle\Entity\ProductSupplier $productSupplier
+     */
+    public function removeProductSupplier(\GescomyBundle\Entity\ProductSupplier $productSupplier)
+    {
+        $this->productSupplier->removeElement($productSupplier);
+    }
+
+    /**
+     * Get productSupplier
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProductSupplier()
+    {
+        return $this->productSupplier;
+    }
+}

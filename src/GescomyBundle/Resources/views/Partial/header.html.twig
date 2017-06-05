@@ -5,6 +5,22 @@
         <li><a href="{{ path('category') }}">Categories</a></li>
         <li><a href="{{ path('product') }}">Produits</a></li>
         <li><a href="{{ path('supplier') }}">Fournisseurs</a></li>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <li><a class='dropdown-button btn red lighten-2' href='#' data-activates='dropdown1'>
+                {{ app.user.username }}</a>
+        </li>
+            {% endif %}
+        <ul class="side-nav" id="mobile">
+            <li><a href="">Catégories</a></li>
+            <li><a href="">Produits</a></li>
+            <li><a href="">Fournisseurs</a></li>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <li class="divider"></li>
+                <li><a href="#!">Profil</a></li>
+                <li><a href="#!">Compte</a></li>
+                <li><a href="{{ path('logout') }}">Déconnexion</a></li>
+            {% endif %}
+        </ul>
     </ul>
     </div>
 </nav>

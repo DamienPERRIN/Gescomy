@@ -2,4 +2,7 @@ gescomy:
     resource: "@GescomyBundle/Controller/"
     type:     annotation
     prefix:   /
+logout:
+    path: /logout
+
 

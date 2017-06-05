@@ -13,10 +13,16 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use GescomyBundle\Entity\User;
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
+class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
+    /**
+     * @var Container
+     */
+    public $container;
+
     /**
      * Load data fixtures with the passed EntityManager
      *
@@ -24,23 +30,24 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $password = 'azerty';
-        $encoded = $this->container->get('security.password_encoder');
-
         $user = new User();
-        $encoded = $encoded->encodePassword($user, $password);
+        $user->setPassword('azerty');
+        $encoder = $this->container->get('security.password_encoder');
+        $password = $encoder->encodePassword($user, $user->getPassword());
         $user->setUsername('damien');
         $user->setEmail('damien@gescom.com');
         $user->setRoles(['ROLE_USER']);
-        $user->setPassword($encoded);
+        $user->setPassword($password);
         $manager->persist($user);
 
         $user = new User();
-        $encoded = $encoded->encodePassword($user, $password);
+        $user->setPassword('123456');
+        $encoder = $this->container->get('security.password_encoder');
+        $password = $encoder->encodePassword($user, $user->getPassword());
         $user->setUsername('admin');
         $user->setEmail('admin@gescom.com');
         $user->setRoles(['ROLE_ADMIN']);
-        $user->setPassword($encoded);
+        $user->setPassword($password);
         $manager->persist($user);
 
         $manager->flush();
